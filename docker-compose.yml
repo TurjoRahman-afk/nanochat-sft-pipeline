@@ -1,0 +1,60 @@
+# nanochat docker-compose
+#
+# Usage (PowerShell):
+#   $env:NANOCHAT_BASE_DIR = "$env:USERPROFILE\.cache\nanochat"
+#   docker compose up --build
+#
+# Then open http://localhost:8000 in your browser.
+
+services:
+
+  nanochat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nanochat:latest
+    container_name: nanochat
+
+    # Port mapping 
+    ports:
+      - "8000:8000"
+
+    #Mount checkpoint directory (read-only inside container) 
+    # Set NANOCHAT_BASE_DIR on your host to point to ~/.cache/nanochat
+    # Windows example: C:/Users/YourName/.cache/nanochat
+    volumes:
+      - ${NANOCHAT_BASE_DIR:-~/.cache/nanochat}:/checkpoints:ro
+
+    # Environment 
+    environment:
+      - NANOCHAT_BASE_DIR=/checkpoints
+      # GPU access (requires NVIDIA Container Toolkit) 
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    # Override the default CMD to customise model/settings
+    command: >
+      python -m scripts.chat_web
+        --source sft
+        --num-gpus 1
+        --host 0.0.0.0
+        --port 8000
+        --temperature 0.8
+        --top-k 50
+        --max-tokens 512
+
+    #  Restart policy 
+    restart: unless-stopped
+
+    #  Health check 
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

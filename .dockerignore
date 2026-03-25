@@ -1,0 +1,37 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Dev / notebooks
+dev/
+benchmark_results/
+*.ipynb
+
+# Shell run scripts (not needed inside container)
+runs/
+
+# Tests
+tests/
+
+# Editor / OS
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+
+# Model checkpoints (mounted as volume at runtime — never bake into image)
+*.pt
+*.safetensors
