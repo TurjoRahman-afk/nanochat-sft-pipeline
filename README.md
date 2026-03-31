@@ -1,9 +1,33 @@
 # nanochat — Windows LLM Fine-Tuning Fork
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.10-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![CUDA](https://img.shields.io/badge/CUDA-12.9-76b900?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![Platform](https://img.shields.io/badge/Platform-Windows-0078d4?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
+
 > **Forked from [karpathy/nanochat](https://github.com/karpathy/nanochat)** (MIT License).
 > The core framework (GPT architecture, tokenizer, optimizer, dataloader, training scripts) was written by Andrej Karpathy.
 > This fork documents running the **complete pipeline end-to-end on a Windows laptop with a single consumer GPU**, including bug fixes, new tooling, and training runs.
 
+---
+
+## Table of Contents
+
+- [What I Did](#what-i-did)
+- [Results](#results)
+  - [Highlights](#highlights)
+  - [Pipeline](#pipeline)
+  - [Bugs Diagnosed & Fixed](#engineering-work--bugs-diagnosed--fixed)
+  - [Base vs SFT Comparison](#base-vs-sft--qualitative-comparison)
+  - [Chat Demo](#chat-demo--web-ui)
+  - [Eval Results](#eval-results--before-vs-after-d12)
+  - [d6 Model Card](#d6--73m-params)
+  - [d12 Model Card](#d12--286m-params)
+- [Setup (Windows)](#setup-windows)
+- [New Scripts](#new-scripts-written-for-this-fork)
+- [Attribution](#attribution)
+- [License](#license)
 
 ---
 
@@ -88,9 +112,6 @@ The SFT model demonstrates clear **instruction-following alignment** — it unde
 ### Chat Demo — Web UI
 
 > Chat quality reflects the model's scale (286M params, ~20 min of pretraining). The model understands conversation format and handles spelling/identity tasks well, but hallucinates on complex tasks. This is expected at this compute budget.
-
-<!-- Add your screenshot below. In GitHub you can drag-and-drop an image directly into the README editor, or use: -->
-<!-- ![Chat demo](assets/chat_demo.png) -->
 
 ![Chat demo](assets/chat_demo.png)
 
@@ -197,7 +218,7 @@ python -m scripts.base_train --depth=12 --max-seq-len=512 --device-batch-size=4 
 | val bpb (start → end) | 1.2569 → **0.6729** |
 | val bpb @ 500 steps | 0.8698 |
 | Total improvement vs base | **−48%** (1.2991 → 0.6729) |
-| Training mixture | SmolTalk ×5, Identity ×2, MMLU ×3, GSM8K ×4, Spelling |
+| Training mixture | [SmolTalk](https://huggingface.co/datasets/HuggingFaceTB/smoltalk) ×5, Identity ×2, [MMLU](https://huggingface.co/datasets/cais/mmlu) ×3, [GSM8K](https://huggingface.co/datasets/openai/gsm8k) ×4, Spelling |
 | Checkpoint | `~/.cache/nanochat/chatsft_checkpoints/d12/model_002000.pt` |
 
 > **Windows note:** Always pass `--chatcore-every -1` when running SFT on Windows. The HumanEval task uses `multiprocessing.Manager()` which cannot spawn child processes from a module-level script on Windows. The flag skips HumanEval entirely; alternatively, the script also auto-skips it on `win32`.
