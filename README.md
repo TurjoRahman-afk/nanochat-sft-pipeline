@@ -52,14 +52,14 @@ Starting from Karpathy's nanochat base, I ran the full LLM lifecycle on a Window
 
 | Achievement | Detail |
 |---|---|
-| 🧠 Trained 286M param GPT from scratch | d12 base model, 2,000 steps, val bpb **1.2991** |
-| 📉 48% val bpb improvement via SFT | 1.2991 → **0.6729** after 2,000-step supervised fine-tuning |
-| 🔧 Diagnosed & fixed 3 training pipeline bugs | Micro-batch counting, Windows crash, epoch-stop guard |
-| 📦 INT8 quantization | 1,092 MB → 777.5 MB (**28.8% smaller**) with no quality loss |
-| ⚡ Inference benchmarked | d12 SFT: 79.7 tok/sec, 820 MB VRAM |
-| 🤗 HuggingFace export | Both base and SFT models exported as `PreTrainedModel` |
-| 🆚 GSM8K math: 1% → 2.5% via RL | 2.5× improvement after 240 steps of GRPO reinforcement learning |
-| 📝 SpellingBee: 63.5% → 84% | +20.5 pp gain from SFT 500 → SFT 2000 + RL |
+|  Trained 286M param GPT from scratch | d12 base model, 2,000 steps, val bpb **1.2991** |
+|  48% val bpb improvement via SFT | 1.2991 → **0.6729** after 2,000-step supervised fine-tuning |
+|  Diagnosed & fixed 3 training pipeline bugs | Micro-batch counting, Windows crash, epoch-stop guard |
+|  INT8 quantization | 1,092 MB → 777.5 MB (**28.8% smaller**) with no quality loss |
+|  Inference benchmarked | d12 SFT: 79.7 tok/sec, 820 MB VRAM |
+|  HuggingFace export | Both base and SFT models exported as `PreTrainedModel` |
+|  GSM8K math: 1% → 2.5% via RL | 2.5× improvement after 240 steps of GRPO reinforcement learning |
+|  SpellingBee: 63.5% → 84% | +20.5 pp gain from SFT 500 → SFT 2000 + RL |
 
 ![Val BPB progression](assets/val_bpb_progression.png)
 
