@@ -37,6 +37,8 @@ Starting from Karpathy's nanochat base, I ran the full LLM lifecycle on a Window
 | 🆚 GSM8K math: 1% → 2.5% via RL | 2.5× improvement after 240 steps of GRPO reinforcement learning |
 | 📝 SpellingBee: 63.5% → 84% | +20.5 pp gain from SFT 500 → SFT 2000 + RL |
 
+![Val BPB progression](assets/val_bpb_progression.png)
+
 ### Pipeline
 
 ```
@@ -96,6 +98,8 @@ The SFT model demonstrates clear **instruction-following alignment** — it unde
 
 ### Eval Results — Before vs After (d12)
 
+![Eval comparison](assets/eval_comparison.png)
+
 All evals: 200 problems per task, greedy decoding (temp=0), top-k=50.
 
 | Task | SFT 500 steps (baseline) | SFT 2000 steps | RL 240 steps |
@@ -115,6 +119,8 @@ All evals: 200 problems per task, greedy decoding (temp=0), top-k=50.
 ---
 
 ### d6 — 73M params
+
+![Inference benchmark](assets/inference_benchmark.png)
 
 **Base Pretraining**
 | Field | Value |
